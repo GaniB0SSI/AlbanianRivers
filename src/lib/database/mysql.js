@@ -1,16 +1,23 @@
 import mysql from 'mysql2/promise';
+import {
+	DB_HOST, 
+	DB_USER, 
+	DB_PORT, 
+	DB_PASSWORD, 
+	DB_NAME
+} from '$env/static/private';
 
-const dbConfig = {
-  host: 'htl-projekt.com',
-  user: 'ganihasmegaj',
-  password: '!Insy_2024$',
-  port:33060,
-  database: '2024_4bw_ganihasmegaj_albanianrivers',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-};
+let connection = null;
+export function createConnection() {
+	if (!connection) {
+		connection = mysql.createConnection({
+			host: DB_HOST,
+			user: DB_USER,
+			port: DB_PORT,
+			password: DB_PASSWORD,
+			database: DB_NAME
+		});
+	}
+	return connection;
 
-const pool = mysql.createPool(dbConfig);
-
-export default pool;
+}
